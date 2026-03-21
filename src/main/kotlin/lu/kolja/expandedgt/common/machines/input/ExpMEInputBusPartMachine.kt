@@ -1,20 +1,21 @@
-package lu.kolja.expandedgt.xmod
+package lu.kolja.expandedgt.common.machines.input
 
 import appeng.api.stacks.GenericStack
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank
+import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour
-import com.gregtechceu.gtceu.integration.ae2.machine.MEInputHatchPartMachine
-import com.gregtechceu.gtceu.integration.ae2.slot.ExportOnlyAEFluidList
+import com.gregtechceu.gtceu.integration.ae2.machine.MEInputBusPartMachine
+import com.gregtechceu.gtceu.integration.ae2.slot.ExportOnlyAEItemList
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget
 import com.lowdragmc.lowdraglib.gui.widget.Widget
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder
 import com.lowdragmc.lowdraglib.utils.Position
+import lu.kolja.expandedgt.common.machines.widgets.ae2.ExpAEItemConfigWidget
 import net.minecraft.nbt.CompoundTag
 
-open class ExpMEInputHatchPartMachine(holder: IMachineBlockEntity, vararg args: Any): MEInputHatchPartMachine(holder, args) {
-    open val managedFieldHolder = ManagedFieldHolder(ExpMEInputHatchPartMachine::class.java, MANAGED_FIELD_HOLDER)
+open class ExpMEInputBusPartMachine(holder: IMachineBlockEntity, vararg args: Any): MEInputBusPartMachine(holder, args) {
+    open val managedFieldHolder = ManagedFieldHolder(ExpMEInputBusPartMachine::class.java, MANAGED_FIELD_HOLDER)
 
     companion object {
         const val SIZE = 32
@@ -22,20 +23,25 @@ open class ExpMEInputHatchPartMachine(holder: IMachineBlockEntity, vararg args: 
 
     override fun getFieldHolder() = managedFieldHolder
 
-    override fun createTank(initialCapacity: Int, slots: Int, vararg args: Any): NotifiableFluidTank {
-        this.aeFluidHandler = ExportOnlyAEFluidList(this, SIZE)
-        return this.aeFluidHandler
+    override fun createInventory(vararg args: Any?): NotifiableItemStackHandler {
+        this.aeItemHandler = ExportOnlyAEItemList(this, SIZE)
+        return this.aeItemHandler
     }
 
     override fun createUIWidget(): Widget {
         val group = WidgetGroup(Position(0, 0))
+
         group.addWidget(LabelWidget(3, 0,
             if (this.isOnline) "gtceu.gui.me_network.online" else "gtceu.gui.me_network.offline"
         ))
-        val left = this.aeFluidHandler.inventory.copyOfRange(0, SIZE / 2)
-        val right = this.aeFluidHandler.inventory.copyOfRange(SIZE / 2, SIZE)
-        group.addWidget(ExpAEFluidConfigWidget(3, 10, aeFluidHandler, left))
-        group.addWidget(ExpAEFluidConfigWidget(3, 10 + 76, aeFluidHandler, right))
+        val left = this.aeItemHandler.inventory.copyOfRange(0, SIZE / 2)
+        val right = this.aeItemHandler.inventory.copyOfRange(SIZE / 2, SIZE)
+        val firstWidget = ExpAEItemConfigWidget(3, 10, aeItemHandler, left)
+        val secondWidget = ExpAEItemConfigWidget(3, 10 + 76, aeItemHandler, right)
+        firstWidget.otherWidget = secondWidget
+        secondWidget.otherWidget = firstWidget
+        group.addWidget(firstWidget)
+        group.addWidget(secondWidget)
         return group
     }
 
@@ -44,7 +50,7 @@ open class ExpMEInputHatchPartMachine(holder: IMachineBlockEntity, vararg args: 
         val configStacks = CompoundTag()
         tag.put("ConfigStacks", configStacks)
         for (i in 0..<SIZE) {
-            val slot = this.aeFluidHandler.inventory[i]
+            val slot = this.aeItemHandler.inventory[i]
             val config = slot.config
             config?.let {
                 val stackTag = GenericStack.writeTag(config)
@@ -52,6 +58,7 @@ open class ExpMEInputHatchPartMachine(holder: IMachineBlockEntity, vararg args: 
             }
         }
         tag.putByte("GhostCircuit", IntCircuitBehaviour.getCircuitConfiguration(circuitInventory.getStackInSlot(0)).toByte())
+        tag.putBoolean("DistinctBuses", isDistinct)
         return tag
     }
 
@@ -62,14 +69,17 @@ open class ExpMEInputHatchPartMachine(holder: IMachineBlockEntity, vararg args: 
                 val key = i.toString()
                 if (configStacks.contains(key)) {
                     val configTag = configStacks.getCompound(key)
-                    this.aeFluidHandler.inventory[i].config = GenericStack.readTag(configTag)
+                    this.aeItemHandler.inventory[i].config = GenericStack.readTag(configTag)
                 } else {
-                    this.aeFluidHandler.inventory[i].config = null
+                    this.aeItemHandler.inventory[i].config = null
                 }
             }
         }
         if (tag.contains("GhostCircuit")) {
             circuitInventory.setStackInSlot(0, IntCircuitBehaviour.stack(tag.getByte("GhostCircuit").toInt()))
+        }
+        if (tag.contains("DistinctBuses")) {
+            isDistinct = tag.getBoolean("DistinctBuses")
         }
     }
 }

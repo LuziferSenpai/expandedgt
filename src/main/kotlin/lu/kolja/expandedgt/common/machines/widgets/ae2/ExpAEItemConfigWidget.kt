@@ -1,4 +1,4 @@
-package lu.kolja.expandedgt.xmod
+package lu.kolja.expandedgt.common.machines.widgets.ae2
 
 import appeng.api.stacks.GenericStack
 import com.gregtechceu.gtceu.integration.ae2.gui.widget.ConfigWidget
@@ -6,8 +6,13 @@ import com.gregtechceu.gtceu.integration.ae2.gui.widget.slot.AEItemConfigSlotWid
 import com.gregtechceu.gtceu.integration.ae2.slot.ExportOnlyAEItemList
 import com.gregtechceu.gtceu.integration.ae2.slot.ExportOnlyAEItemSlot
 import com.gregtechceu.gtceu.integration.ae2.slot.IConfigurableSlot
+import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup
+import com.lowdragmc.lowdraglib.gui.widget.layout.Align
+import org.apache.commons.compress.harmony.pack200.PackingUtils.config
 
-class ExpAEItemConfigWidget(x: Int, y: Int, val list: ExportOnlyAEItemList, slots: Array<ExportOnlyAEItemSlot>): ConfigWidget(x, y, slots, list.isStocking) {
+open class ExpAEItemConfigWidget(x: Int, y: Int, val list: ExportOnlyAEItemList, slots: Array<ExportOnlyAEItemSlot>): ConfigWidget(x, y, slots, list.isStocking) {
+    lateinit var otherWidget: ExpAEItemConfigWidget
+
     override fun init() {
         this.displayList = Array<IConfigurableSlot>(config.size) { ExportOnlyAEItemSlot() }
         this.cached = Array<IConfigurableSlot>(config.size) {
@@ -20,4 +25,12 @@ class ExpAEItemConfigWidget(x: Int, y: Int, val list: ExportOnlyAEItemList, slot
     override fun hasStackInConfig(stack: GenericStack) = this.list.hasStackInConfig(stack, true)
 
     override fun isAutoPull() = this.list.isAutoPull
+
+    override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
+        val superResult = super.mouseClicked(mouseX, mouseY, button)
+        if (superResult && otherWidget.amountSetWidget.isVisible) {
+            otherWidget.disableAmount()
+        }
+        return superResult
+    }
 }
