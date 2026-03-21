@@ -1,4 +1,4 @@
-package lu.kolja.expandedgt.xmod
+package lu.kolja.expandedgt.common.machines.input.stocking
 
 import appeng.api.config.Actionable
 import appeng.api.stacks.AEFluidKey
@@ -26,6 +26,7 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder
 import it.unimi.dsi.fastutil.objects.Object2LongMap
 import lombok.Getter
 import lombok.Setter
+import lu.kolja.expandedgt.common.machines.input.ExpMEInputHatchPartMachine
 import lu.kolja.expandedgt.util.translate
 import net.minecraft.core.Direction
 import net.minecraft.nbt.CompoundTag

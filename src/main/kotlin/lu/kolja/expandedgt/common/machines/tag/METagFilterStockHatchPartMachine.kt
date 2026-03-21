@@ -1,4 +1,4 @@
-package lu.kolja.expandedgt.xmod
+package lu.kolja.expandedgt.common.machines.tag
 
 import appeng.api.config.Actionable
 import appeng.api.stacks.AEFluidKey

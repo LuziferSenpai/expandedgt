@@ -49,7 +49,12 @@ fun MutableComponent.bold(): MutableComponent = this.withStyle(ChatFormatting.BO
 /**
  * Executes the given [run] function if the [T] is null
  */
-fun <T> T?.ifNull(run: () -> Unit) = if (this == null) run() else Unit
+inline fun <T> T?.ifNull(run: () -> Unit) = if (this.isNull()) run() else Unit
+
+/**
+ * Returns true if [T] is null
+ */
+fun <T> T.isNull() = this == null
 
 /**
  * Returns a ternary value
@@ -82,6 +87,7 @@ infix fun <T> LazyTernary<T>.c(ret: () -> T): T = if (bool) value() else ret()
 data class LazyTernary<T>(val bool: Boolean, val value: () -> T)
 
 fun test() {
-    val a: String = true q "A" c "B"
+    val a: String? = true q "A" c "B"
     val b: String = true q { "A" } c { "B" }
+    val d: String = a ?: "b"
 }

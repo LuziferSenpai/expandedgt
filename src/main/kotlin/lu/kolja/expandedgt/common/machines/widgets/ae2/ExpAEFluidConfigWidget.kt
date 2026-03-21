@@ -11,7 +11,8 @@ import org.apache.commons.compress.harmony.pack200.PackingUtils.config
 
 class ExpAEFluidConfigWidget(
     x: Int, y: Int,
-    val list: ExportOnlyAEFluidList, slots: Array<ExportOnlyAEFluidSlot>
+    val list: ExportOnlyAEFluidList, slots: Array<ExportOnlyAEFluidSlot>,
+    val run: (AmountSetWidget) -> Unit
 ): ConfigWidget(x, y, slots, list.isStocking) {
     lateinit var otherWidget: ExpAEFluidConfigWidget
 
@@ -32,6 +33,9 @@ class ExpAEFluidConfigWidget(
         val superResult = super.mouseClicked(mouseX, mouseY, button)
         if (superResult && otherWidget.amountSetWidget.isVisible) {
             otherWidget.disableAmount()
+        }
+        if (this.amountSetWidget.isVisible) {
+            run(this.amountSetWidget)
         }
         return superResult
     }

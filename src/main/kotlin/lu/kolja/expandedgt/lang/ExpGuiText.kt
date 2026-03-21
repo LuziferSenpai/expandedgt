@@ -2,7 +2,7 @@ package lu.kolja.expandedgt.lang
 
 import appeng.core.localization.LocalizationEnum
 
-enum class ExpGuiText(var text: String) : LocalizationEnum {
+enum class ExpGuiText(val text: String) : LocalizationEnum {
     CreativeTab("Expanded GT"),
     TagFilterConfig("Tag Filter Config"),
     Whitelist("Whitelist"),

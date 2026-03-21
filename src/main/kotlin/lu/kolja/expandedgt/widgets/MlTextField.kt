@@ -13,7 +13,6 @@ import net.minecraft.util.Mth
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 import org.lwjgl.glfw.GLFW
-import java.util.ArrayList
 import kotlin.math.max
 
 @OnlyIn(Dist.CLIENT)

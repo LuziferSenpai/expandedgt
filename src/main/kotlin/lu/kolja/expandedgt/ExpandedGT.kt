@@ -4,6 +4,8 @@ import appeng.api.features.GridLinkables
 import com.gregtechceu.gtceu.api.GTCEuAPI
 import com.gregtechceu.gtceu.api.machine.MachineDefinition
 import com.gregtechceu.gtceu.common.data.GTCreativeModeTabs
+import com.gregtechceu.gtceu.integration.ae2.machine.MEPatternBufferPartMachine
+import com.gregtechceu.gtceu.integration.ae2.machine.MEPatternBufferProxyPartMachine
 import com.mojang.logging.LogUtils
 import com.tterrag.registrate.providers.ProviderType
 import com.tterrag.registrate.util.entry.RegistryEntry
@@ -11,7 +13,6 @@ import lu.kolja.expandedgt.datagen.ExpLangProvider
 import lu.kolja.expandedgt.definiton.ExpandedGTItems
 import lu.kolja.expandedgt.definiton.ExpandedGTMachines
 import lu.kolja.expandedgt.items.linked.LinkedItem
-import lu.kolja.expandedgt.items.linked.LinkedTerminalItem
 import lu.kolja.expandedgt.lang.ExpGuiText
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.CreativeModeTab

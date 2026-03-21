@@ -1,4 +1,4 @@
-package lu.kolja.expandedgt.xmod.dual
+package lu.kolja.expandedgt.common.machines.dual
 
 import appeng.api.config.Actionable
 import appeng.api.stacks.AEFluidKey
@@ -21,7 +21,6 @@ import com.lowdragmc.lowdraglib.gui.widget.Widget
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder
-import lu.kolja.expandedgt.xmod.dual.DualMEHatchPartMachine
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.ListTag
 import net.minecraft.world.item.ItemStack
@@ -112,9 +111,9 @@ class DualMEOutputHatchPartMachine(holder: IMachineBlockEntity, tier: Int): Dual
             internalItemBuffer.setOnContentsChanged(this::onContentsChanged)
         }
 
-        override fun getContents(): MutableList<Any> = emptyList<Any>().toMutableList()
+        override fun getContents(): MutableList<Any> = mutableListOf()
 
-        override fun getTotalContentAmount() = 0.toDouble()
+        override fun getTotalContentAmount() = 0.0
 
         override fun isEmpty() = true
     }

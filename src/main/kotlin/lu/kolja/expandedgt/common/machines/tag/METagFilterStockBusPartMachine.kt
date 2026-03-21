@@ -1,4 +1,4 @@
-package lu.kolja.expandedgt.xmod
+package lu.kolja.expandedgt.common.machines.tag
 
 import appeng.api.config.Actionable
 import appeng.api.stacks.AEItemKey
@@ -17,7 +17,7 @@ import lu.kolja.expandedgt.interfaces.ITagFilterPartMachine
 import net.minecraft.nbt.CompoundTag
 import java.util.*
 
-class METagFilterStockBusPartMachine(holder: IMachineBlockEntity): MEStockingBusPartMachine(holder), ITagFilterPartMachine {
+open class METagFilterStockBusPartMachine(holder: IMachineBlockEntity): MEStockingBusPartMachine(holder), ITagFilterPartMachine {
     val managedFieldHolder = ManagedFieldHolder(METagFilterStockBusPartMachine::class.java, MANAGED_FIELD_HOLDER)
 
     @Persisted

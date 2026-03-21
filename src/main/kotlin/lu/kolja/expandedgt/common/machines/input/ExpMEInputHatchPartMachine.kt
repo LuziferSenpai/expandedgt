@@ -6,6 +6,7 @@ import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour
 import com.gregtechceu.gtceu.integration.ae2.machine.MEInputHatchPartMachine
 import com.gregtechceu.gtceu.integration.ae2.slot.ExportOnlyAEFluidList
+import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget
 import com.lowdragmc.lowdraglib.gui.widget.Widget
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup
@@ -35,8 +36,12 @@ open class ExpMEInputHatchPartMachine(holder: IMachineBlockEntity, vararg args: 
         ))
         val left = this.aeFluidHandler.inventory.copyOfRange(0, SIZE / 2)
         val right = this.aeFluidHandler.inventory.copyOfRange(SIZE / 2, SIZE)
-        val firstWidget = ExpAEFluidConfigWidget(3, 10, aeFluidHandler, left)
-        val secondWidget = ExpAEFluidConfigWidget(3, 10 + 76, aeFluidHandler, right)
+        val firstWidget = ExpAEFluidConfigWidget(3, 10, aeFluidHandler, left) {
+            it.selfPositionY = group.positionY - it.sizeHeight
+        }
+        val secondWidget = ExpAEFluidConfigWidget(3, 10 + 76, aeFluidHandler, right) {
+            it.selfPositionY = group.positionY - it.sizeHeight
+        }
         firstWidget.otherWidget = secondWidget
         secondWidget.otherWidget = firstWidget
         group.addWidget(firstWidget)

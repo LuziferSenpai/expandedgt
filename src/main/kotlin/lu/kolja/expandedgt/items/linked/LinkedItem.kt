@@ -4,10 +4,8 @@ import appeng.api.features.IGridLinkableHandler
 import appeng.api.implementations.blockentities.IWirelessAccessPoint
 import appeng.api.networking.IGrid
 import appeng.core.localization.PlayerMessages
-import appeng.items.AEBaseItem
 import appeng.util.Platform
 import com.gregtechceu.gtceu.api.item.ComponentItem
-import com.mojang.datafixers.util.Pair
 import net.minecraft.Util
 import net.minecraft.core.GlobalPos
 import net.minecraft.nbt.NbtOps

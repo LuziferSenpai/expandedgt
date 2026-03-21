@@ -5,20 +5,19 @@ import com.gregtechceu.gtceu.api.item.component.IItemUIFactory
 import com.lowdragmc.lowdraglib.gui.editor.ColorPattern
 import com.lowdragmc.lowdraglib.gui.factory.HeldItemUIFactory
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI
-import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup
-import com.lowdragmc.lowdraglib.gui.widget.LabelWidget
-import com.lowdragmc.lowdraglib.gui.widget.SwitchWidget
-import com.lowdragmc.lowdraglib.gui.widget.TextFieldWidget
-import com.lowdragmc.lowdraglib.gui.widget.Widget
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup
+import com.lowdragmc.lowdraglib.gui.widget.*
 import com.lowdragmc.lowdraglib.gui.widget.layout.Align
 import com.lowdragmc.lowdraglib.utils.Size
-import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
-import java.lang.Exception
+import org.jetbrains.annotations.ApiStatus
 
+@ApiStatus.Experimental
+/**
+ * A menu for the [lu.kolja.expandedgt.items.linked.LinkedTerminalItem]
+ * Unused for now
+ */
 class LinkedTerminalMenu: IItemUIFactory {
     val useAE = Setting("useAE", false)
 

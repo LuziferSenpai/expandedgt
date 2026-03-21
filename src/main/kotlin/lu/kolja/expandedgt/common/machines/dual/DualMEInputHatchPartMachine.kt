@@ -1,4 +1,4 @@
-package lu.kolja.expandedgt.xmod.dual
+package lu.kolja.expandedgt.common.machines.dual
 
 import appeng.api.config.Actionable
 import appeng.api.stacks.GenericStack
@@ -16,7 +16,6 @@ import com.lowdragmc.lowdraglib.gui.widget.LabelWidget
 import com.lowdragmc.lowdraglib.gui.widget.Widget
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder
-import com.lowdragmc.lowdraglib.utils.Position
 import net.minecraft.nbt.CompoundTag
 import net.minecraftforge.fluids.capability.IFluidHandler
 
@@ -96,7 +95,7 @@ class DualMEInputHatchPartMachine(holder: IMachineBlockEntity, tier: Int): DualM
                 this.circuitInventory.setStackInSlot(0, IntCircuitBehaviour.stack(tag.getByte("GhostCircuit").toInt()))
             }
             if (tag.contains("DistinctBuses")) {
-                this.setDistinct(tag.getBoolean("DistinctBuses"))
+                this.isDistinct = tag.getBoolean("DistinctBuses")
             }
         }
     }

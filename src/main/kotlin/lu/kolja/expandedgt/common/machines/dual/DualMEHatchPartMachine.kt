@@ -1,4 +1,4 @@
-package lu.kolja.expandedgt.xmod.dual
+package lu.kolja.expandedgt.common.machines.dual
 
 import appeng.api.networking.IGridNodeListener
 import appeng.api.networking.IManagedGridNode
@@ -62,8 +62,6 @@ abstract class DualMEHatchPartMachine(holder: IMachineBlockEntity, io: IO, tier:
             iTankSubscription = null
         }
     }
-
-
 
     override fun updateInventorySubscription() {
         if (shouldSubscribe()) {
