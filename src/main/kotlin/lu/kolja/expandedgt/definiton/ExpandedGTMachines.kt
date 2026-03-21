@@ -2,7 +2,6 @@ package lu.kolja.expandedgt.definiton
 
 import com.gregtechceu.gtceu.api.GTValues.UV
 import com.gregtechceu.gtceu.api.GTValues.ZPM
-import com.gregtechceu.gtceu.api.capability.recipe.IO
 import com.gregtechceu.gtceu.api.data.RotationState
 import com.gregtechceu.gtceu.api.machine.MachineDefinition
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility
@@ -10,10 +9,10 @@ import lu.kolja.expandedgt.ExpandedGT
 import lu.kolja.expandedgt.ExpandedGT.Companion.REGISTRATE
 import lu.kolja.expandedgt.lang.ExpTooltips
 import lu.kolja.expandedgt.util.sharedPart
+import lu.kolja.expandedgt.util.translate
 import lu.kolja.expandedgt.xmod.*
 import lu.kolja.expandedgt.xmod.dual.DualMEInputHatchPartMachine
 import lu.kolja.expandedgt.xmod.dual.DualMEOutputHatchPartMachine
-import net.minecraft.network.chat.Component
 
 object ExpandedGTMachines {
     init {
@@ -27,7 +26,7 @@ object ExpandedGTMachines {
         .rotationState(RotationState.ALL)
         .abilities(PartAbility.IMPORT_FLUIDS)
         .colorOverlayTieredHullModel(ExpandedGT.makeId("block/overlay/ae2/expanded_me_input_hatch"))
-        .tooltips(ExpTooltips.EvenBigger.text(Component.translatable("block.gtceu.me_input_hatch"), 32))
+        .tooltips(ExpTooltips.EvenBigger.text("block.gtceu.me_input_hatch".translate(), 32))
         .sharedPart()
         .register()
 
@@ -38,7 +37,7 @@ object ExpandedGTMachines {
         .rotationState(RotationState.ALL)
         .abilities(PartAbility.IMPORT_ITEMS)
         .colorOverlayTieredHullModel(ExpandedGT.makeId("block/overlay/ae2/expanded_me_input_bus"))
-        .tooltips(ExpTooltips.EvenBigger.text(Component.translatable("block.gtceu.me_input_bus"), 32))
+        .tooltips(ExpTooltips.EvenBigger.text("block.gtceu.me_input_bus".translate(), 32))
         .sharedPart()
         .register()
 
@@ -49,7 +48,7 @@ object ExpandedGTMachines {
         .rotationState(RotationState.ALL)
         .abilities(PartAbility.IMPORT_FLUIDS)
         .colorOverlayTieredHullModel(ExpandedGT.makeId("block/overlay/ae2/expanded_me_stocking_input_hatch"))
-        .tooltips(ExpTooltips.EvenBigger.text(Component.translatable("block.gtceu.me_stocking_input_hatch"), 32))
+        .tooltips(ExpTooltips.EvenBigger.text("block.gtceu.me_stocking_input_hatch".translate(), 32))
         .sharedPart()
         .register()
 
@@ -60,7 +59,7 @@ object ExpandedGTMachines {
         .rotationState(RotationState.ALL)
         .abilities(PartAbility.IMPORT_ITEMS)
         .colorOverlayTieredHullModel(ExpandedGT.makeId("block/overlay/ae2/expanded_me_stocking_input_bus"))
-        .tooltips(ExpTooltips.EvenBigger.text(Component.translatable("block.gtceu.me_stocking_input_bus"), 32))
+        .tooltips(ExpTooltips.EvenBigger.text("block.gtceu.me_stocking_input_bus".translate(), 32))
         .sharedPart()
         .register()
 
@@ -71,7 +70,7 @@ object ExpandedGTMachines {
         .rotationState(RotationState.ALL)
         .abilities(PartAbility.IMPORT_ITEMS)
         .colorOverlayTieredHullModel(ExpandedGT.makeId("block/overlay/ae2/me_tag_filter_stocking_bus"))
-        .tooltips(ExpTooltips.TagFilterMachineTooltip.text(Component.translatable("block.gtceu.me_stocking_input_bus")))
+        .tooltips(ExpTooltips.TagFilterMachineTooltip.text("block.gtceu.me_stocking_input_bus".translate()))
         .sharedPart()
         .register()
 
@@ -82,7 +81,7 @@ object ExpandedGTMachines {
         .rotationState(RotationState.ALL)
         .abilities(PartAbility.IMPORT_FLUIDS)
         .colorOverlayTieredHullModel(ExpandedGT.makeId("block/overlay/ae2/me_tag_filter_stocking_hatch"))
-        .tooltips(ExpTooltips.TagFilterMachineTooltip.text(Component.translatable("block.gtceu.me_stocking_input_hatch")))
+        .tooltips(ExpTooltips.TagFilterMachineTooltip.text("block.gtceu.me_stocking_input_hatch".translate()))
         .sharedPart()
         .register()
 
@@ -94,7 +93,7 @@ object ExpandedGTMachines {
         .rotationState(RotationState.ALL)
         .abilities(PartAbility.EXPORT_FLUIDS, PartAbility.EXPORT_ITEMS)
         .colorOverlayTieredHullModel(ExpandedGT.makeId("block/overlay/ae2/dual_me_output_hatch"))
-        .tooltips(ExpTooltips.DualHatch.text(Component.translatable("block.gtceu.me_output_bus"), Component.translatable("block.gtceu.me_output_hatch")))
+        .tooltips(ExpTooltips.DualHatch.text("block.gtceu.me_output_bus".translate(), "block.gtceu.me_output_hatch".translate()))
         .sharedPart()
         .register()
 
@@ -106,7 +105,7 @@ object ExpandedGTMachines {
         .rotationState(RotationState.ALL)
         .abilities(PartAbility.IMPORT_FLUIDS, PartAbility.IMPORT_ITEMS)
         .colorOverlayTieredHullModel(ExpandedGT.makeId("block/overlay/ae2/dual_me_input_hatch"))
-        .tooltips(ExpTooltips.DualHatch.text(Component.translatable("block.gtceu.me_input_bus"), Component.translatable("block.gtceu.me_input_hatch")))
+        .tooltips(ExpTooltips.DualHatch.text("block.gtceu.me_input_bus".translate(), "block.gtceu.me_input_hatch".translate()))
         .sharedPart()
         .register()
 }
