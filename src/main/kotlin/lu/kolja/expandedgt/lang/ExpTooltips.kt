@@ -3,6 +3,7 @@ package lu.kolja.expandedgt.lang
 import appeng.core.localization.LocalizationEnum
 
 enum class ExpTooltips(var text: String): LocalizationEnum {
+    DualHatch("§8A combined version of the §b%s§8 and §b%s§8"),
     EvenBigger("§8Even Bigger §b%s§8, now with §a%s§8 slots"),
     TagFilterMachineTooltip("§8A better version of the §b%s§8, allowing you to also filter by tags"),
     TagFilterInfo("Left-click to add tags to the filter, right-click to copy tags to the clipboard"),
