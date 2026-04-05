@@ -83,10 +83,20 @@ class DualMEOutputHatchPartMachine(holder: IMachineBlockEntity, tier: Int): Dual
     override fun autoIO() {
         if (!this.shouldSyncME()) return
         if (this.updateMEStatus()) {
-            val grid = this.mainNode.grid
-            if (grid != null && !this.internalItemBuffer.isEmpty) {
-                this.internalItemBuffer.insertInventory(grid.storageService.inventory, this.actionSource)
+            val node = this.mainNode
+
+            node.grid?.let {
+                val inventory = it.storageService.inventory
+
+                if (!internalItemBuffer.isEmpty) {
+                    internalItemBuffer.insertInventory(inventory, this.actionSource)
+                }
+
+                if (!internalFluidBuffer.isEmpty) {
+                    internalFluidBuffer.insertInventory(inventory, this.actionSource)
+                }
             }
+
             this.updateInventorySubscription()
         }
     }
