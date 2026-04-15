@@ -65,7 +65,7 @@ public abstract class MixinBlockPattern implements IBlockPattern {
 
     @Unique
     @Override
-    public void exAutoBuild(Player player, MultiblockState worldState, IGrid grid) {
+    public void exAutoBuild(Player player, MultiblockState worldState, IGrid grid, boolean useHatches) {
         Level world = player.level();
         int minZ = -centerOffset[4];
         worldState.clean();
@@ -163,10 +163,17 @@ public abstract class MixinBlockPattern implements IBlockPattern {
                             ItemStack found = null;
                             AEItemKey key = null;
                             var meInv = grid.getStorageService().getInventory();
-                            var counter = meInv.getAvailableStacks();
                             if (!player.isCreative()) {
-                                key = eae$getMatchStackWithHandler(candidates, counter);
-                                if (key == null) continue;
+                                var inventoryCounter = new KeyCounter();
+                                for (var item : player.getInventory().items) {
+                                    inventoryCounter.add(AEItemKey.of(item), item.getCount());
+                                }
+                                key = eae$getMatchStackWithHandler(candidates, inventoryCounter, useHatches);
+                                if (key == null) {
+                                    var counter = meInv.getAvailableStacks();
+                                    key = eae$getMatchStackWithHandler(candidates, counter, useHatches);
+                                }
+                                if (key == null) continue; // No match found in either inventory or me system
                                 found = key.toStack();
                             } else {
                                 for (ItemStack candidate : candidates) {
@@ -223,12 +230,12 @@ public abstract class MixinBlockPattern implements IBlockPattern {
 
     @Unique
     @Nullable
-    private static AEItemKey eae$getMatchStackWithHandler(List<ItemStack> candidates, KeyCounter counter) {
-        for (var entry : counter) {
+    private static AEItemKey eae$getMatchStackWithHandler(List<ItemStack> candidates, KeyCounter storageContents, boolean useHatches) {
+        for (var entry : storageContents) {
             var key = entry.getKey();
             if (candidates.stream().anyMatch(
                     stack -> AEItemKey.matches(key, stack) && entry.getLongValue() > 0 &&
-                            stack.getItem() instanceof BlockItem blockItem && !(blockItem instanceof MetaMachineItem)
+                            (useHatches || stack.getItem() instanceof BlockItem blockItem && !(blockItem instanceof MetaMachineItem))
             )) {
                 return (AEItemKey) key;
             }

@@ -9,6 +9,7 @@ import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemStack
 
 /**
  * Translates the given string to a component
@@ -45,6 +46,11 @@ fun MutableList<Component>.shiftInfo(vararg hints: Component) {
  * Makes the component bold
  */
 fun MutableComponent.bold(): MutableComponent = this.withStyle(ChatFormatting.BOLD)
+
+/**
+ * Get a [lu.kolja.expandedgt.menu.LinkedTerminalMenu.Setting] from an [ItemStack]
+ */
+fun ItemStack.getSetting(key: String) = this.tag?.getBoolean(key) ?: false
 
 /**
  * Executes the given [run] function if the [T] is null

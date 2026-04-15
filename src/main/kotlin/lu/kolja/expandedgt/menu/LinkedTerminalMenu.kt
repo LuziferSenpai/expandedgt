@@ -8,6 +8,7 @@ import com.lowdragmc.lowdraglib.gui.modular.ModularUI
 import com.lowdragmc.lowdraglib.gui.widget.*
 import com.lowdragmc.lowdraglib.gui.widget.layout.Align
 import com.lowdragmc.lowdraglib.utils.Size
+import lu.kolja.expandedgt.widgets.SimpleToggleButtonWidget
 import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
@@ -15,104 +16,50 @@ import org.jetbrains.annotations.ApiStatus
 
 @ApiStatus.Experimental
 /**
- * A menu for the [lu.kolja.expandedgt.items.linked.LinkedTerminalItem]
- * Unused for now
- */
+* A menu for the [lu.kolja.expandedgt.items.linked.LinkedTerminalItem]
+*/
 class LinkedTerminalMenu: IItemUIFactory {
-    val useAE = Setting("useAE", false)
-
     override fun createUI(
         holder: HeldItemUIFactory.HeldItemHolder,
         player: Player
     ): ModularUI {
         val ui = ModularUI(Size(180, 180), holder, player)
-        ui.widget(createWidget(player, holder.held))
+        ui.widget(createWidget(holder.held))
         return ui
     }
 
-    fun createWidget(player: Player, held: ItemStack): Widget {
-        val hand = player.mainHandItem
-        val useAe = Setting("useAE", false)
+    fun createWidget(held: ItemStack): Widget {
+        val useAe = Setting(USE_AE_TAG, false)
         val group = WidgetGroup(0, 0, 180, 180)
         group.addWidget(
             DraggableScrollableWidgetGroup(10, 10, 160, 160)
                 .setBackground(GuiTextures.DISPLAY)
                 .setYScrollBarWidth(3)
                 .setYBarStyle(null, ColorPattern.BLACK.rectTexture().setRadius(1f))
-                .addWidget(LabelWidget(20, 5, "Use AE2"))
-                //.addWidget(CheckboxWidget(100, 5, 50, 16, { useAe.getValue(held) }, { useAe.setValue(held) }))
-                //.addWidget(SwitchWidget(100, 25, 50, 16, {data, bool -> useAe.setValue(held)}))
+                .addWidget(LabelWidget(8, 5, "Use Hatches"))
+                .addWidget(
+                    SimpleToggleButtonWidget(
+                        142, 5, 10, 10,
+                        { useAe.getValue(held) },
+                        { useAe.setValue(held, it) })
+                )
                 .setAlign(Align.CENTER)
         )
         return group
     }
 
-    //data class Setting(val id: String)
-
-    inner class CheckboxWidget(x: Int, y: Int, val width: Int, val height: Int, val value: () -> Boolean, val onChanged: (Boolean) -> Unit): WidgetGroup(x, y, width, height) {
-        lateinit var textField: TextFieldWidget
-        val min = 0
-        val max = 1
-
-        var textValue: Boolean
-            set(value) = onChanged(value)
-            get() = value()
-
-        init {
-            createUI()
-        }
-
-        override fun initWidget() {
-            super.initWidget()
-            this.textField.setCurrentString(if (value()) "1" else "0")
-        }
-
-        override fun writeInitialData(buffer: FriendlyByteBuf) {
-            super.writeInitialData(buffer)
-            buffer.writeBoolean(value())
-        }
-
-        override fun readInitialData(buffer: FriendlyByteBuf) {
-            super.readInitialData(buffer)
-            this.textField.setCurrentString(buffer.readUtf())
-        }
-
-        fun createUI() {
-            textField =  object : TextFieldWidget(0, 0, width, height, { value().toString() }, { textValue = it.toInt().coerceIn(min, max) != 0 }) {
-                override fun mouseWheelMove(
-                    mouseX: Double,
-                    mouseY: Double,
-                    wheelDelta: Double
-                ): Boolean {
-                    if (wheelDur > 0 && numberInstance != null && isMouseOverElement(mouseX, mouseY) && isFocus) {
-                        try {
-                            onTextChanged("$currentString${(if (wheelDelta > 0) 1 else -1) * wheelDur}")
-                        } catch (_: Exception) {}
-                        isFocus = true
-                        return true
-                    }
-                    return false
-                }
-            }
-            textField.setNumbersOnly(min, max)
-            this.addWidget(textField)
-        }
+    companion object {
+        const val USE_AE_TAG = "useAE"
+        const val USE_HATCHES_TAG = "useHatches"
     }
 
-    data class Setting(val id: String, var value: Boolean) {
-        fun setValue(stack: ItemStack) {
-            value = !value
-            val tag = stack.orCreateTag
-            tag.putBoolean(id, value)
-            stack.tag = tag
+    data class Setting(val id: String, val defaultValue: Boolean) {
+        fun setValue(stack: ItemStack, value: Boolean) {
+            stack.orCreateTag.putBoolean(id, value)
         }
 
         fun getValue(stack: ItemStack): Boolean {
-            val tag = stack.tag
-            tag?.let {
-                return tag.getBoolean(id)
-            }
-            return value
+            return stack.tag?.getBoolean(id) ?: defaultValue
         }
     }
 }

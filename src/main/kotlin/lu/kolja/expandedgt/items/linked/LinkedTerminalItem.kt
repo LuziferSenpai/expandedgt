@@ -2,11 +2,13 @@ package lu.kolja.expandedgt.items.linked
 
 import appeng.core.localization.GuiText
 import appeng.core.localization.Tooltips
+import com.gregtechceu.gtceu.api.item.component.IInteractionItem
 import com.gregtechceu.gtceu.api.machine.MetaMachine
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController
 import lu.kolja.expandedgt.interfaces.IBlockPattern
 import lu.kolja.expandedgt.lang.ExpTooltips
 import lu.kolja.expandedgt.util.bold
+import lu.kolja.expandedgt.util.getSetting
 import lu.kolja.expandedgt.util.shiftInfo
 import net.minecraft.network.chat.Component
 import net.minecraft.world.InteractionResult
@@ -20,7 +22,7 @@ class LinkedTerminalItem(properties: Properties): LinkedItem(properties) {
     override fun useOn(context: UseOnContext): InteractionResult {
         val player = context.player
         val level = context.level
-        if (player == null || !player.isShiftKeyDown || level.isClientSide) return InteractionResult.PASS
+        if (player == null || !player.isShiftKeyDown || level.isClientSide) return InteractionResult.CONSUME
         val pos = context.clickedPos
         val item = context.itemInHand
         val machine = MetaMachine.getMachine(level, pos)
@@ -28,7 +30,7 @@ class LinkedTerminalItem(properties: Properties): LinkedItem(properties) {
         if (machine.isFormed) return InteractionResult.PASS // TODO: destroy if formed
         val grid = getLinkedGrid(item, level, player)
         grid?.let {
-            (machine.pattern as IBlockPattern).exAutoBuild(player, machine.multiblockState, it)
+            (machine.pattern as IBlockPattern).exAutoBuild(player, machine.multiblockState, it, item.getSetting("useHatches"))
             player.cooldowns.addCooldown(this, 20)
         }
         return InteractionResult.sidedSuccess(false)
