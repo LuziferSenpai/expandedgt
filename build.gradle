@@ -121,7 +121,7 @@ repositories {
         }
     }
     maven { // Registrate
-        url "https://maven.tterrag.com/"
+        url "https://repo.expandium.net/releases"
     }
     maven {
         name "firstdarkdev"
