@@ -36,16 +36,7 @@ open class ExpMEInputHatchPartMachine(holder: IMachineBlockEntity, vararg args: 
         ))
         val left = this.aeFluidHandler.inventory.copyOfRange(0, SIZE / 2)
         val right = this.aeFluidHandler.inventory.copyOfRange(SIZE / 2, SIZE)
-        val firstWidget = ExpAEFluidConfigWidget(3, 10, aeFluidHandler, left) {
-            it.selfPositionY = group.positionY - it.sizeHeight
-        }
-        val secondWidget = ExpAEFluidConfigWidget(3, 10 + 76, aeFluidHandler, right) {
-            it.selfPositionY = group.positionY - it.sizeHeight
-        }
-        firstWidget.otherWidget = secondWidget
-        secondWidget.otherWidget = firstWidget
-        group.addWidget(firstWidget)
-        group.addWidget(secondWidget)
+        group.addWidget(ExpAEFluidConfigWidget(3, 10, aeFluidHandler, this.aeFluidHandler.inventory))
         return group
     }
 
